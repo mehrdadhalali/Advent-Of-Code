@@ -1,13 +1,5 @@
 """Day 1"""
-
-
-def get_data_from_file(filename: str) -> list[str]:
-    """Gets the data from the file."""
-
-    with open(filename, "r") as f:
-        lines = f.readlines()
-
-    return [int(line) for line in lines]
+from read_from_file import get_input_data
 
 
 def num_larger_than_prev(measurements: list) -> int:
@@ -32,21 +24,21 @@ def three_measure_window_larger_than_prev(measurements: list) -> int:
     return total
 
 
-def get_first_star() -> int:
+def get_first_star(measurements: list) -> int:
     """Completes the first task."""
 
-    measurements = get_data_from_file("day_1_input.txt")
     return num_larger_than_prev(measurements)
 
 
-def get_second_star() -> int:
+def get_second_star(measurements: list) -> int:
     """COmpleted the second task."""
 
-    measurements = get_data_from_file("day_1_input.txt")
     return three_measure_window_larger_than_prev(measurements)
 
 
 if __name__ == "__main__":
 
-    print(get_first_star())
-    print(get_second_star())
+    input_measurements = [int(line) for line in get_input_data(1)]
+
+    print(get_first_star(input_measurements))
+    print(get_second_star(input_measurements))
