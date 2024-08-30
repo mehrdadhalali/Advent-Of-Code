@@ -1,32 +1,42 @@
 """Day 3"""
 
+from math import ceil
 from read_from_file import get_input_data
 
 
 def sum_position_at(readings: list[list], position: int) -> int:
     """Sums up all of the readings at index `position`"""
 
-    return sum([int(reading[position]) for reading in readings])
+    return sum([reading[position] for reading in readings])
 
 
-def get_majority_readings(readings: list[list], position: int) -> list[list]:
-    """Returns the list of readings with a majority on a given position."""
+def get_extreme_readings(readings: list[list], position: int, minority: bool) -> list[list]:
+    """Returns the list of readings with a majority/minority on a given position."""
 
     number_of_readings = len(readings)
-    if number_of_readings % 2 == 0:
-        half = number_of_readings // 2
-    else:
-        half = number_of_readings // 2 + 1
+
+    half = ceil(number_of_readings / 2)
 
     total = sum_position_at(readings, position)
 
-    majority = int(total >= half)
+    if not minority:
+        is_extreme = int(total >= half)
+    else:
+        is_extreme = int(total < half)
 
-    return [reading for reading in readings if int(reading[position]) == majority]
+    return [reading for reading in readings if reading[position] == is_extreme]
 
 
-def get_the_majority_string(readings: list[list]) -> list:
-    """Returns"""
+def get_rating(readings: list[list], minority: bool = False) -> int:
+    """Returns the oxygen generator rating, or the CO2 scrubber rating."""
+
+    length_of_one_reading = len(readings[0])
+
+    for i in range(0, length_of_one_reading):
+        readings = get_extreme_readings(readings, i, minority)
+        if len(readings) == 1:
+            break
+    return bin_to_int(readings[0])
 
 
 def bin_to_int(bits: list[int]) -> int:
@@ -43,9 +53,9 @@ def get_first_star(readings: list[list]) -> int:
     """Does the first task."""
 
     number_of_inputs = len(readings)
-    length_of_one_reading = len(readings[0]) - 1
+    length_of_one_reading = len(readings[0])
 
-    # Calculate the sum of all readings added pointwise
+    # Calculate the sum of all readings added point-wise
     input_totals = [sum_position_at(readings, i)
                     for i in range(0, length_of_one_reading)]
 
@@ -63,18 +73,16 @@ def get_first_star(readings: list[list]) -> int:
 def get_second_star(readings: list[list]) -> int:
     """Does the second task."""
 
-    length_of_one_reading = len(readings[0]) - 1
+    oxygen_rating = get_rating(readings)
+    co2_rating = get_rating(readings, True)
 
-    for i in range(0, length_of_one_reading):
-        readings = get_majority_readings(readings, i)
-        print(["".join(reading) for reading in readings])
-        if len(readings) == 1:
-            break
-    return "".join(readings[0])
+    return oxygen_rating * co2_rating
 
 
 if __name__ == "__main__":
+
     input_readings = [list(line) for line in get_input_data(3)]
+    input_readings = [list(map(int, line)) for line in input_readings]
 
     # print(get_first_star(input_readings))
     print(get_second_star(input_readings))

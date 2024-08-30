@@ -5,6 +5,6 @@ def get_input_data(day_number: int) -> list:
     """Gets the lines from the input file."""
 
     with open(f"day_{day_number}_input.txt", "r") as f:
-        lines = f.readlines()
+        lines = (f.read()).split("\n")
 
     return lines
