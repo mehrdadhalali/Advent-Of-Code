@@ -1,7 +1,7 @@
 """Day 8"""
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
-"""Given a witing, the code of each letter is defined to be te number of times that letter appears in
+"""Given a wiring, the code of each letter is defined to be te number of times that letter appears in
 a string of length 3,4,6 in the input. 
 The constant CODE_TO_LETTER indicates the code of each letter, when all the wires are attached correctly."""
 

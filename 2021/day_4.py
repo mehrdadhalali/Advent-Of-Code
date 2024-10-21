@@ -1,5 +1,5 @@
 """Day 4"""
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def transpose_board(board: list[list[int]]) -> list[list[int]]:

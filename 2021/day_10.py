@@ -1,5 +1,5 @@
-"""Day 9"""
-from read_from_file import get_input_data
+"""Day 10"""
+from helper_functions import get_input_data
 
 CLOSED_TO_OPEN = {
     "]": "[",

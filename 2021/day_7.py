@@ -1,5 +1,5 @@
 """Day 7"""
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def format_data(data: str) -> list[int]:

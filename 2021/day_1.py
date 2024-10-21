@@ -1,5 +1,5 @@
 """Day 1"""
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def num_larger_than_prev(measurements: list) -> int:

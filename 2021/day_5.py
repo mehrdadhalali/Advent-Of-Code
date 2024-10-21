@@ -1,5 +1,5 @@
 """Day 5"""
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def format_line(line: str) -> tuple[tuple[int]]:

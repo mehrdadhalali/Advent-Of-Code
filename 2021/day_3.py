@@ -1,7 +1,7 @@
 """Day 3"""
 
 from math import ceil
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def sum_position_at(readings: list[list], position: int) -> int:

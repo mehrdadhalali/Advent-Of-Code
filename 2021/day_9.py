@@ -1,5 +1,5 @@
 """Day 9"""
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def format_data(lines: list[str]) -> list[list[str]]:
@@ -11,7 +11,7 @@ def format_data(lines: list[str]) -> list[list[str]]:
 
 
 # TODO: put guards in the grid, filled with "-1" instead
-def get_adjacent_points(grid: list[list[int]], row: int, column: int) -> list[int]:
+def get_adjacent_points(grid: list[list], row: int, column: int) -> list[int]:
     """Returns the coordinates of all of the adjacent points to a point."""
 
     num_rows = len(grid)

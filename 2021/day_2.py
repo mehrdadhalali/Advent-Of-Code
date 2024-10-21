@@ -1,6 +1,6 @@
 """Day 2"""
 
-from read_from_file import get_input_data
+from helper_functions import get_input_data
 
 
 def get_position_and_depth(commands: list[str]) -> tuple[int]:
