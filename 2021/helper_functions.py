@@ -14,6 +14,8 @@ def get_input_data(day_number: int, test: bool = False) -> list:
 
     return lines
 
+# TODO: put guards in the grid, filled with "-1" instead
+
 
 def get_adjacent_points(grid: list[list], row: int, column: int) -> list[int]:
     """Returns the coordinates of all of the adjacent points to a point."""

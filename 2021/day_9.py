@@ -1,5 +1,5 @@
 """Day 9"""
-from helper_functions import get_input_data
+from helper_functions import get_input_data, get_adjacent_points
 
 
 def format_data(lines: list[str]) -> list[list[str]]:
@@ -8,26 +8,6 @@ def format_data(lines: list[str]) -> list[list[str]]:
     grid_str = list(map(list, lines))
 
     return [list(map(int, line)) for line in grid_str]
-
-
-# TODO: put guards in the grid, filled with "-1" instead
-def get_adjacent_points(grid: list[list], row: int, column: int) -> list[int]:
-    """Returns the coordinates of all of the adjacent points to a point."""
-
-    num_rows = len(grid)
-    num_cols = len(grid[0])
-
-    adjacent_coordinates = [(row+1, column),
-                            (row - 1, column),
-                            (row, column + 1),
-                            (row, column - 1)]
-    adjacent_points = []
-
-    for coord in adjacent_coordinates:
-        if coord[0] in range(0, num_rows) and coord[1] in range(0, num_cols):
-            adjacent_points.append(coord)
-
-    return adjacent_points
 
 
 def make_basins(grid: list[list[int]]) -> list[list[int]]:
