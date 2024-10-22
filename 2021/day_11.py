@@ -1,6 +1,8 @@
 """Day 11"""
 from helper_functions import get_input_data, get_adjacent_points, show_grid
 
+FLASHES = 0
+
 
 class DumboOctopus:
     """The abstracted version of a dumbo octopus."""
@@ -36,6 +38,8 @@ class DumboOctopus:
 
         self.energy = 0
         self.already_flashed = True
+        global FLASHES
+        FLASHES += 1
 
         for neighbour in self.neighbours:
             neighbour.increment_energy()
@@ -70,12 +74,18 @@ def initialise_neighbours(grid: list[list[DumboOctopus]]) -> list[DumboOctopus]:
     return grid
 
 
-def take_one_step(grid: list[list[DumboOctopus]]) -> list[list[DumboOctopus]]:
+def increment_energies(grid: list[list[DumboOctopus]]) -> list[list[DumboOctopus]]:
     """Simulate one time step."""
 
     for row in grid:
         for octopus in row:
             octopus.increment_energy()
+
+    return grid
+
+
+def reset_flash_flags(grid: list[list[DumboOctopus]]) -> list[list[DumboOctopus]]:
+    """Resets the flash status of all octopodes."""
 
     for row in grid:
         for octopus in row:
@@ -89,18 +99,46 @@ def take_steps(grid: list[list[DumboOctopus]],
     """Takes several steps."""
 
     for i in range(0, steps):
-        grid = take_one_step(grid)
+        grid = increment_energies(grid)
+        grid = reset_flash_flags(grid)
 
     return grid
 
 
+def all_flashed(grid: list[list[DumboOctopus]]) -> bool:
+    """Has every single octopus flashed?"""
+
+    return all(octopus.already_flashed
+               for row in grid
+               for octopus in row)
+
+
+def get_first_star(data: list[str]) -> int:
+    """Does the first task."""
+
+    grid = create_octopus_grid(format_data(data))
+    grid = initialise_neighbours(grid)
+    grid = take_steps(grid, 100)
+    return FLASHES
+
+
+def get_second_star(data: list[str]) -> int:
+    """Does the second task."""
+
+    grid = create_octopus_grid(format_data(data))
+    grid = initialise_neighbours(grid)
+
+    step = 1
+    while True:
+        grid = increment_energies(grid)
+        if all_flashed(grid):
+            return step
+        grid = reset_flash_flags(grid)
+        step += 1
+
+
 if __name__ == "__main__":
 
-    input_data = get_input_data(11, test=True)
+    input_data = get_input_data(11, test=False)
 
-    octogrid = create_octopus_grid(format_data(input_data))
-
-    octogrid = initialise_neighbours(octogrid)
-
-    octogrid = take_steps(octogrid, 100)
-    show_grid(octogrid)
+    print(get_second_star(input_data))
