@@ -83,13 +83,6 @@ def get_second_star(grid: list[list[int]]) -> int:
     return basin_sizes[0]*basin_sizes[1]*basin_sizes[2]
 
 
-def show_grid(grid: list[list[int]]) -> None:
-    """Function that helps visualise the grid."""
-
-    for row in grid:
-        print("".join(list(map(str, row))))
-
-
 if __name__ == "__main__":
 
     input_data = get_input_data(9)
