@@ -8,3 +8,20 @@ class Node:
 
         self.name = name
         self.neighbours = set()
+
+
+class LinkedList:
+    """A linked list."""
+
+    def __init__(self, value):
+
+        self.value = value
+        self.next = None
+
+    def __repr__(self) -> str:
+
+        if self.next is not None:
+
+            return str(self.value) + str(self.next)
+
+        return str(self.value)
