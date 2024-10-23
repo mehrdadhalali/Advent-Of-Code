@@ -49,3 +49,10 @@ def show_grid(grid: list[list]) -> None:
 
     for row in grid:
         print("".join(list(map(str, row))))
+
+
+def transpose(grid: list[list]) -> list[list]:
+    """Returns the transpose of a grid."""
+
+    return [[grid[j][i] for j in range(0, len(grid))]
+            for i in range(0, len(grid[0]))]
