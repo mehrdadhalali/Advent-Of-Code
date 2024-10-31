@@ -20,8 +20,11 @@ class LinkedList:
 
     def __repr__(self) -> str:
 
-        if self.next is not None:
+        origin = self
+        list_str = str(origin.value)
 
-            return str(self.value) + str(self.next)
+        while origin.next is not None:
+            list_str += str(origin.next.value)
+            origin = origin.next
 
-        return str(self.value)
+        return list_str
