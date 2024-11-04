@@ -68,7 +68,7 @@ def get_element_occurrences(template: LinkedList) -> list[tuple]:
         occurrences[template.value] = occurrences.get(template.value, 0) + 1
         template = template.next
 
-    return occurrences.items()
+    return occurrences
 
 
 def return_occurrences_after_steps(template: LinkedList, rules: dict,
@@ -79,8 +79,6 @@ def return_occurrences_after_steps(template: LinkedList, rules: dict,
     execute_steps(template, rules, step_count)
 
     occurrences = get_element_occurrences(template)
-
-    occurrences = sorted(occurrences, key=lambda x: x[1])
 
     return occurrences
 
@@ -103,23 +101,57 @@ def get_unique_letters(rules: dict) -> list[str]:
 
 def create_cached_occurrences(pairs: list[LinkedList], rules: dict, step_count: int) -> dict:
     """Given a list of pair, returns an object that maps the pair
-        to the occurrences after some amount of steps."""
+        to the occurrences after some amount of steps.
+        The occurrences exclude the original parents."""
 
     total = len(pairs)
     cached_occurrences = {}
 
     for i in range(0, len(pairs)):
         key = str(pairs[i])
-        cached_occurrences[key] = return_occurrences_after_steps(
+        occurrences = return_occurrences_after_steps(
             pairs[i], rules, step_count)
+
+        p1, p2 = tuple(key)
+        occurrences[p1] = occurrences[p1] - 1
+        occurrences[p2] = occurrences[p2] - 1
+
+        cached_occurrences[key] = occurrences
         if i % 5 == 4 and i > 0:
             print(f"Caching: {i+1}/{total}")
 
     return cached_occurrences
 
 
+def update_occurrences(occ_1: dict, occ_2: dict) -> dict:
+    """Updates the first occurrence with the second one."""
+
+    for key in occ_2.keys():
+        occ_1[key] = occ_1.get(key, 0) + occ_2[key]
+
+    return occ_1
+
+
 def get_second_star(template: LinkedList, rules: dict) -> int:
     """Does the second task."""
+
+    unique_letters = get_unique_letters(rules)
+    pairs = [format_template(list(char1 + char2)) for char1 in unique_letters
+             for char2 in unique_letters]
+
+    cached_occurrences = create_cached_occurrences(pairs, rules, 20)
+
+    occurrences_main = return_occurrences_after_steps(template, insertion_rules,
+                                                      20)
+
+    template_str = str(template)
+    for i in range(0, len(template_str) - 1):
+
+        to_add = cached_occurrences[template_str[i]+template_str[i+1]]
+        update_occurrences(occurrences_main, to_add)
+
+    occurrences_list = sorted(occurrences_main.items(), key=lambda x: x[1])
+    return occurrences_list[-1][1] - occurrences_list[0][1]
 
 
 if __name__ == "__main__":
@@ -127,8 +159,7 @@ if __name__ == "__main__":
     input_data = get_input_data(14, test=False)
     polymer_template, insertion_rules = format_data(input_data)
 
-    unique_letters = get_unique_letters(insertion_rules)
-    pairs = [format_template(list(char1 + char2)) for char1 in unique_letters
-             for char2 in unique_letters]
+    print(get_first_star(polymer_template, insertion_rules))
+    print(get_second_star(polymer_template, insertion_rules))
 
-    print(create_cached_occurrences(pairs, insertion_rules, 20))
+    # TODO: Task 2 takes a few minutes, make it faster.
