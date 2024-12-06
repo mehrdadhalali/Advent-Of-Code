@@ -12,8 +12,25 @@ class Grid:
 
     def __repr__(self) -> str:
 
-        return "\n".join(["".join(row)
+        return "\n".join(["".join(map(str, row))
                           for row in self.grid])
+
+    def contains(self, coords: tuple[int]):
+        """Are these coordinates inside the grid?"""
+
+        if (coords[0] not in range(0, self.rows)
+                or coords[1] not in range(0, self.columns)):
+            return False
+
+        return True
+
+    def loc(self, coords: tuple[int]):
+        """Given coordinates, returns the element in there."""
+
+        if not self.contains(coords):
+            raise ValueError("Out of bounds!")
+
+        return self.grid[coords[0]][coords[1]]
 
     def get_adjacent_points(self, row: int, column: int,
                             include_diagonals: bool = False) -> list[tuple[int]]:
