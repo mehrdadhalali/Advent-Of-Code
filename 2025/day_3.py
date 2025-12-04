@@ -39,7 +39,3 @@ if __name__ == "__main__":
 
     print(get_first_star(banks))
     print(get_second_star(banks))
-
-
-
-
