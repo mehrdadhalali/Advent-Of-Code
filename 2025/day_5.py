@@ -11,6 +11,23 @@ def format_data(lines: list) -> dict:
             "ids": list(map(int, lines[break_index + 1:]))}
 
 
+def create_mutually_exclusive_ranges(ranges: list) -> list:
+    """Merge overlapping ranges so that they're all mustually exclusive."""
+
+    ranges.sort(key = lambda rng: rng[0])
+    i = 0
+    while i < len(ranges) - 1:
+
+        if ranges[i][1] >= ranges[i+1][0]:
+            new_lower = ranges[i][0]
+            new_upper = max(ranges[i+1][1], ranges[i][1])
+            ranges = ranges[:i] + [(new_lower, new_upper)] + ranges[i+2:]
+        else:
+            i += 1
+
+    return ranges
+
+
 def find_fresh_ids(id_data: dict) -> list:
     """Find the fresh IDs in the now-mutually-exlusive ranges"""
 
@@ -30,22 +47,6 @@ def find_fresh_ids(id_data: dict) -> list:
     
     return fresh_ids
 
-        
-def create_mutually_exclusive_ranges(ranges: list) -> list:
-    """Merge overlapping ranges so that they're all mustually exclusive."""
-
-    ranges.sort(key = lambda rng: rng[0])
-    i = 0
-    while i < len(ranges) - 1:
-
-        if ranges[i][1] >= ranges[i+1][0]:
-            new_lower = ranges[i][0]
-            new_upper = max(ranges[i+1][1], ranges[i][1])
-            ranges = ranges[:i] + [(new_lower, new_upper)] + ranges[i+2:]
-        else:
-            i += 1
-
-    return ranges
             
 
 
